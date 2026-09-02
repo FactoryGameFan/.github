@@ -4,13 +4,14 @@
     "Org-wide Renovate defaults for FactoryGameFan. Repos pull this in with `extends: [\"local>FactoryGameFan/.github:renovate-config\"]`, which replaces the `config:recommended` and `helpers:pinGitHubActionDigests` lines they used to carry themselves.",
     "WHAT BELONGS HERE: only settings whose reasoning is identical in every repo. Anything derived from one repo's toolchain stays in that repo's own config, next to the comment that explains it. Concretely, these stay out: `minimumReleaseAge` (FactorioMapWebUI's 3 days is computed from pnpm's own 24-hour floor, not an org preference), `vulnerabilityAlerts.minimumReleaseAge` (the 25 hours exists to clear that same pnpm floor by an hour), `lockFileMaintenance` (on in FactorioTools, pinned off in FactorioMapWebUI because it was measured causing TS2321), and every package hold with its reasoning.",
     "MERGE BEHAVIOUR, read from renovate's own `config/utils.js` and options metadata rather than the docs, which do not cover it. `vulnerabilityAlerts` is mergeable, so a repo adding `minimumReleaseAge` to it KEEPS the empty schedule set below - it does not replace the block. `packageRules` is a mergeable array and concatenates with this file's rules FIRST, and later rules win in Renovate, so a repo rule of the same shape overrides the one here. `schedule` and `extends` are NOT mergeable: a repo setting either one replaces this file's value outright.",
+    "SCHEDULE: a whole day, not a morning, and the change has a measurement behind it. This was `before 6am on monday` until 2026-09-01. That is a 6 hour window out of 168, and Renovate only creates branches if one of its jobs happens to run inside it. Mostly it did not. From the Mend job logs for factorio-blueprint-editor on Monday 2026-08-31: four runs, at 18:04, 20:05, 23:06 and 00:30 UTC, and all four logged `Skipping branch creation as not within schedule` for the same six branches, including a queued `hyper` bump and a GitHub Actions digest pin. Limits were not the cause - those same logs compute `branchConcurrentLimit 3` and `prHourlyLimit 2`, and neither one binds. FactorioMapWebUI had the same pattern and opened no Renovate PR at all between 2026-08-19 and 2026-09-01. The failure is silent in the worst way, because the dashboard keeps saying 'Awaiting Schedule', which looks exactly like 'nothing to update'. `on monday` keeps the weekly batch this preset is built around and widens the window to 24 hours, which all four of that Monday's runs would have hit. A repo that needs updates sooner should set `schedule` in its own config; per the merge note above, a repo value replaces this one rather than adding to it.",
     "This repo must be ticked in the Renovate app installation. Renovate cannot read a preset it has no access to, and a repo running with 'Require config file' will then go silently quiet rather than error."
   ],
 
   "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
 
   "timezone": "America/Los_Angeles",
-  "schedule": ["before 6am on monday"],
+  "schedule": ["on monday"],
 
   "automerge": false,
   "dependencyDashboard": true,
