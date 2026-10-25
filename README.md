@@ -2,6 +2,13 @@
 
 Org-wide defaults for the FactoryGameFan organization.
 
+## `SECURITY.md`
+
+The security policy GitHub shows on every repo in the org that has no `SECURITY.md` of its own.
+It sends reporters to GitHub's private vulnerability reporting, which must be switched on in each
+repo for the **Report a vulnerability** button to appear. The org's code security configuration
+turns it on.
+
 ## `renovate-config.json`
 
 The shared [Renovate](https://docs.renovatebot.com/) preset. Every repo in the org that has
