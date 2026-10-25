@@ -20,9 +20,9 @@ dependencies pulls it in with:
 }
 ```
 
-It holds the settings that are the same everywhere: the timezone, the weekly Monday batch,
-`automerge: false`, the PR rate caps, the rule that security fixes skip the weekly window, and
-the GitHub Actions grouping.
+It holds the settings that are the same everywhere: the timezone, the weekly batch from noon
+Sunday to noon Monday, `automerge: false`, the PR rate caps, the rule that security fixes skip
+the weekly window, and the GitHub Actions grouping.
 
 It deliberately does **not** hold release-age floors, lockfile maintenance, or package holds.
 Those differ per repo and their reasoning is written next to them in each repo's own config.
